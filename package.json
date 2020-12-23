@@ -1,0 +1,18 @@
+{
+  "name": "hm-interface",
+  "version": "0.0.1",
+  "description": "A node implementation for a HomeMatic Hardware Interface",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "th.kluge@me.com",
+  "license": "MIT",
+  "dependencies": {
+    "homematic-xmlrpc": "1.0.2",
+    "chalk":"4.1.0"
+  }
+}
