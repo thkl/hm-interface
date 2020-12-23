@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "A node implementation for a HomeMatic Hardware Interface",
   "main": "index.js",
+  "repository": {
+		"type": "git",
+		"url": "git://github.com/thkl/hm-interface.git"
+	},
   "directories": {
     "lib": "lib"
   },
