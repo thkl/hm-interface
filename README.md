@@ -8,7 +8,7 @@ npm install hm-interface
 let options = {
   localIp: 'XXX.XXX.XXX.XXX', // The IP the interface should listen to
   localPort: XXXX, // the port
-  ccuIP: 'XXX.XXX.XXX.XXX' // The ip from your ccu ; this is needed to change the rega init urls
+  ccuIP: 'AAA.AAA.AAA.AAA' // The ip from your ccu ; this is needed to change the rega init urls
 }
 
 let newInteface = new HMInterface.HomematicInterface(options)
@@ -36,3 +36,14 @@ newInteface.on('device_channel_value_change', (changedObject) => {
 
 
 for more see the example
+
+You have to add the interface to your CCU by adding it to /etc/config/InterfacesList.xml
+Just add:
+
+```
+	<ipc>
+	 	<name>myFirstInterface</name>
+	 	<url>xmlrpc://XXX.XXX.XXX.XXX:XXXX</url>
+	 	<info>myFirstInterface</info>
+	</ipc>
+```
