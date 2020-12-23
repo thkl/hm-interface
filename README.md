@@ -5,6 +5,8 @@ Usage
 npm install hm-interface
 
 ```
+const HMInterface = require('hm-interface')
+
 let options = {
   localIp: 'XXX.XXX.XXX.XXX', // The IP the interface should listen to
   localPort: XXXX, // the port
@@ -14,7 +16,7 @@ let options = {
 let newInteface = new HMInterface.HomematicInterface(options)
 newInteface.init()
 
-// the interface will safe XMPRPC Init IDs to use after an relaunch; if you want to use saved IDs 
+// the interface will save XMPRPC Init IDs to use after an relaunch; if you want to use saved IDs 
 // (you do not have to restart rega) you can do it by :
 newInteface.loadClients(options.ccuIP)
 
@@ -38,7 +40,7 @@ newInteface.on('device_channel_value_change', (changedObject) => {
 for more see the example
 
 You have to add the interface to your CCU by adding it to /etc/config/InterfacesList.xml
-Just add:
+Just add: (IP and Port see the example above)
 
 ```
 	<ipc>
