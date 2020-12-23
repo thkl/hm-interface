@@ -33,5 +33,5 @@ const logger = require('./lib/logger.js')
 
 module.exports = {
   HomematicInterface,
-  logger
+  logger // export the logger for optional usage
 }

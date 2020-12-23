@@ -23,20 +23,26 @@ let dimmingDevice = newInteface.initDevice('Example', 'ABCD001235', 'HM-LC-Dim1T
 
 devData = require(path.join(__dirname, 'HM-RC-19.json'))
 newInteface.initDevice('Example', 'ABCD001236', 'HM-RC-19', devData)
-/*
+
+// run this a demo every 5 seconds
 setInterval(() => {
+  // all values will be combin'd in one xmlrpc multicall (timeout is 500ms)
   newInteface.startMulticallEvent(500)
+
+  // get the channel with the type switch and the index 1 from the switch device
   let channel = switchDevice.getChannelWithTypeAndIndex('SWITCH', 1)
+  // some random value 0-1
   let rnd = Math.random()
+  // update the STATE Datapoint
   channel.updateValue('STATE', (rnd > 0.5), true, false, true)
 
+  // do the same random stuff with the dimmer
   channel = dimmingDevice.getChannelWithTypeAndIndex('DIMMER', 1)
   rnd = Math.random()
   channel.updateValue('LEVEL', rnd, true, false, true)
-
+  // send all collected events once by a multicall
   newInteface.sendMulticallEvents()
 }, 5000)
-*/
 
 // Message when the interface will change the value
 newInteface.on('event_device_channel_value_change', (changedObject) => {
