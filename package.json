@@ -1,6 +1,6 @@
 {
   "name": "hm-interface",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A node implementation for a HomeMatic Hardware Interface",
   "main": "index.js",
   "repository": {
@@ -17,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "homematic-xmlrpc": "1.0.2",
-    "chalk":"4.1.0"
+    "chalk":"4.1.0",
+    "binrpc": "3.3.1"
   }
 }
