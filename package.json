@@ -1,12 +1,12 @@
 {
   "name": "hm-interface",
-  "version": "0.0.4",
+  "version": "0.0.9",
   "description": "A node implementation for a HomeMatic Hardware Interface",
   "main": "index.js",
   "repository": {
-		"type": "git",
-		"url": "git://github.com/thkl/hm-interface.git"
-	},
+    "type": "git",
+    "url": "git://github.com/thkl/hm-interface.git"
+  },
   "directories": {
     "lib": "lib"
   },
@@ -17,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "homematic-xmlrpc": "1.0.2",
-    "chalk":"4.1.0",
+    "chalk": "4.1.0",
     "binrpc": "3.3.1"
   }
 }

@@ -30,15 +30,15 @@
 
 const HomematicInterface = require('./lib/HomematicInterface.js')
 const HomeMaticAddress = require('./lib/HomeMaticAddress.js')
-const HomeMaticRegaRequest = require('./lib/HomeMaticRegaRequest.js')
+const HomeMaticRegaManager = require('./lib/HomeMaticRegaManager.js')
 const HomematicClientInterfaceManager = require('./lib/HomematicClientInterfaceManager.js')
-
 const logger = require('./lib/logger.js')
 
 module.exports = {
   HomematicInterface,
   HomeMaticAddress,
-  HomeMaticRegaRequest,
+  HomeMaticRegaManager,
   HomematicClientInterfaceManager,
+
   logger // export the logger for optional usage
 }
