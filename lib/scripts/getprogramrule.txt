@@ -1,0 +1,85 @@
+string sID;
+var oRTmp = dom.GetObject(%1);
+    if(oRTmp) {
+        integer iRCC = oRTmp.RuleConditions().Count();
+        string sCI;boolean rf = true;
+        Write('{"rule":');
+        Write('{"conditions":{');
+        foreach( sCI,system.GenerateEnum(0,(iRCC-1)) ) {
+            if (rf) {rf = false;} else { Write(','); }
+            Write('"' # sCI # '":');
+            object oCTmp = oRTmp.RuleCondition(sCI);
+            Write('{"ruleCndOperatorType":'#oCTmp.CndOperatorType()#',"condition":[');
+
+            if(oCTmp){
+                boolean cf = true;
+                foreach(sID,system.GenerateEnum(0,oCTmp.CndSingleCount()-1)){
+                    if (cf) {cf = false;} else { Write(','); }
+                    Write('{"cid":' # sID #',');
+                    object oSC = oCTmp.CndSingleCondition(sID);
+                    if (oSC) {
+                        Write('"leftVal":"'#oSC.LeftVal()#'",');
+                        Write('"operatorType":'#oSC.OperatorType()#',');
+                        Write('"leftValType":'#oSC.LeftValType()#',');
+                        Write('"rightVal1ValType":'#oSC.RightVal1ValType()#',');
+                        if (oSC.RightVal1ValType() == ivtString) {
+                            Write('"rightVal1":"'#oSC.RightVal1()#'",');
+                        } else {
+                            Write('"rightVal1":'#oSC.RightVal1()#',');
+                        }
+
+                        if (oSC.RightVal2ValType() != 0) {
+                            Write('"rightVal2ValType":'#oSC.RightVal2ValType()#',');
+                            if (oSC.RightVal2ValType() == ivtString) {
+                                Write('"rightVal2":"'#oSC.RightVal2()#'",');
+                            } else {
+                                Write('"rightVal2":'#oSC.RightVal2()#',');
+                            }
+                        }
+
+                        Write('"conditionType":'#oSC.ConditionType()#',');
+                        Write('"conditionType2":'#oSC.ConditionType2()#',');
+                        Write('"negateCondition":'#oSC.NegateCondition()#',');
+                        Write('"conditionChannel":'#oSC.ConditionChannel());
+                    }
+                    Write('}');
+                }
+                Write(']}');
+            }
+           
+        }
+        
+        Write('}');
+        object oDTmp = oRTmp.RuleDestination();
+        Write(',"ruleBreakOnRestart":'#oDTmp.BreakOnRestart());
+        Write(',"destinations":[');
+        if (oDTmp) {
+            boolean df = true;
+            foreach(sID,system.GenerateEnum(0, oDTmp.DestSingleCount()-1)){
+                object oSD = oDTmp.DestSingleDestination(sID);
+                if( oSD ) {
+                    if (df) {df = false;} else { Write(','); }
+                    Write('{');
+                    Write('"destinationId":'#sID#',');
+                    Write('"destinationDP":'#oSD.DestinationDP()#',');
+                    Write('"destinationChannel":'#oSD.DestinationChannel()#',');
+                    Write('"destinationParam":'#oSD.DestinationParam()#',');
+                    if (oSD.DestinationParam() == 20) {
+                        Write('"destinationValue":"'#oSD.DestinationValue().UriEncode()#'",');
+                    } else {
+                        Write('"destinationValue":"'#oSD.DestinationValue()#'",');
+                    }
+                    Write('"destinationValueParam":"'#oSD.DestinationValueParam()#'",');
+                    Write('"destinationValueParamType":'#oSD.DestinationValueParamType()#',');
+                    Write('"destinationValueType":'#oSD.DestinationValueType());
+                    Write('}');
+                }
+            }
+        }
+        Write(']}');
+        object oSr = oRTmp.RuleSubRule(); 
+        if (oSr) {
+            Write(',"subRule":' # oSr.ID());
+        }
+        Write('}');
+  }

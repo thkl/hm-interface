@@ -1,0 +1,22 @@
+string sDeviceId=%1;
+string sChannelId;string sDpId;
+ object oDevice = dom.GetObject(sDeviceId);
+  if(oDevice){
+   Write('{');
+   Write('"channels": [');
+     boolean bcf = true;
+     foreach(sChannelId, oDevice.Channels().EnumIDs()){
+       if(bcf) {bcf = false;} else {Write(',');}
+       Write('{"cid":' # sChannelId # ',"pids":[');                  
+       object oChannel = dom.GetObject(sChannelId);
+          string pid;
+          boolean pcf = true;
+          foreach(pid, oChannel.ChnEnumDPUsagePrograms()){
+            if (pcf) {pcf = false;} else {Write(',');}
+            Write(pid);
+          }
+      Write(']}');
+    }
+     Write(']');
+    }                   
+Write('}');

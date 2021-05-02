@@ -1,0 +1,11 @@
+object program = dom.GetObject(%id%);
+object rule = program.Rule();
+object cnd ;
+if (rule.RuleConditions().Count()>0) {
+   cnd = rule.RuleCondition(0);
+} else {
+   cnd = rule.RuleAddCondition();
+}
+
+Write('{"rid":' # rule.ID() # ',');
+Write('"id":' # cnd.ID() # '}');

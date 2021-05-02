@@ -1,0 +1,24 @@
+!variables
+string varid;
+boolean df = true;
+Write('{"variables":[');
+    foreach(varid, dom.GetObject(ID_SYSTEM_VARIABLES).EnumIDs()){
+        object ovar = dom.GetObject(varid);
+        if(df) {df = false;} else { Write(',');}
+        Write('{');
+        Write('"id": ' # varid # ',');
+        Write('"name": "');WriteXML(ovar.Name());Write('",');
+        Write('"dpInfo": "');WriteXML(ovar.DPInfo());Write('",');
+        Write('"unerasable": ' # ovar.Unerasable() # ',');
+        Write('"valuetype": ' # ovar.ValueType() # ',');
+        Write('"subtype": ' # ovar.ValueSubType() # ',');
+        Write('"minvalue": "' # ovar.ValueMin() # '",');
+        Write('"maxvalue": "' # ovar.ValueMax() # '",');
+        Write('"valuelist": "' # ovar.ValueList() # '",');
+        Write('"unit": "' # ovar.ValueUnit().UriEncode() # '",');
+        Write('"valueName0": "' # ovar.ValueName0().UriEncode() # '",');
+        Write('"valueName1": "' # ovar.ValueName1().UriEncode() # '",');
+        Write('"state": "' # ovar.State().ToString().UriEncode() # '"');
+        Write('}');
+    } 
+Write(']}');

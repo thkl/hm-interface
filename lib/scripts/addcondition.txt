@@ -1,0 +1,29 @@
+object rcondition = dom.GetObject(%ruleCId%);
+if (rcondition) {
+    rcondition.CndOperatorType(%ruleCndOperatorType%);
+    object s_cond = rcondition.CndAddSingle();
+    s_cond.OperatorType(%operatorType%);
+    s_cond.ConditionType(%conditionType%)
+    s_cond.ConditionType2(%conditionType2%);
+    s_cond.LeftValType(%leftValType%);
+    s_cond.ConditionChannel(%conditionChannel%);
+    s_cond.LeftVal('%leftVal%');
+    s_cond.RightVal1ValType(%rightVal1ValType%);
+    if (%rightVal1ValType% == 20) {
+        s_cond.RightVal1('%rightVal1%');
+    } else {
+        s_cond.RightVal1(%rightVal1%);
+    }    
+    if (%rightVal2ValType% != 65535) {
+        s_cond.RightVal2ValType(%rightVal2ValType%);
+        if (%rightVal2ValType% == 20) {
+            s_cond.RightVal2('%rightVal2%');
+        } else {
+            s_cond.RightVal2(%rightVal2%);
+        }
+    }
+    s_cond.NegateCondition(%negateCondition%);
+    Write('{"result":' # s_cond.ID() # '}');
+} else {
+    Write('unable to find condition');
+}

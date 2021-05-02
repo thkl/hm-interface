@@ -32,6 +32,8 @@ const HomematicInterface = require('./lib/HomematicInterface.js')
 const HomeMaticAddress = require('./lib/HomeMaticAddress.js')
 const HomeMaticRegaManager = require('./lib/HomeMaticRegaManager.js')
 const HomematicClientInterfaceManager = require('./lib/HomematicClientInterfaceManager.js')
+const HomeMaticRPCManager = require('./lib/HomeMaticRPCManager.js')
+
 const logger = require('./lib/logger.js')
 
 module.exports = {
@@ -39,6 +41,6 @@ module.exports = {
   HomeMaticAddress,
   HomeMaticRegaManager,
   HomematicClientInterfaceManager,
-
+  HomeMaticRPCManager,
   logger // export the logger for optional usage
 }

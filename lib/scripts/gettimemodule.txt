@@ -1,0 +1,18 @@
+object tmObj = dom.GetObject(%id%);
+if (tmObj && (tmObj.Type() == OT_CALENDARDP)) {
+    Write('{');
+    Write('"sunOffsetType": ' # tmObj.SunOffsetType() # ',');
+    Write('"calDuration": ' # tmObj.CalDuration() # ',');
+    Write('"time": "' # tmObj.Time() # '",');
+    Write('"timeSeconds": ' # tmObj.TimeSeconds() # ',');
+    Write('"calRepeatTime": "' # tmObj.CalRepeatTime() # '",');
+    Write('"period": ' # tmObj.Period() # ',');
+    Write('"calRepetitionValue": ' # tmObj.CalRepetitionValue() # ',');
+    Write('"weekdays": ' # tmObj.Weekdays() # ',');
+    Write('"timerType": ' # tmObj.TimerType() # ',');
+    Write('"begin": "' # tmObj.Begin() # '",');
+    Write('"end": "' # tmObj.End() # '",');
+    Write('"calRepetitionCount": ' # tmObj.CalRepetitionCount() # ',');
+    Write('"endSeconds": ' # tmObj.EndSeconds());
+    Write('}');
+}

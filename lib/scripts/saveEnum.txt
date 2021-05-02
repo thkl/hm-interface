@@ -1,0 +1,8 @@
+var obj=dom.GetObject(%id%);
+if (obj) {
+    obj.Name("%name%");
+    obj.EnumInfo("%description%");
+    Write('{"result":"ok","name":' # obj.Name() # '}');
+} else {
+    Write('{"result":"not found"}');
+}

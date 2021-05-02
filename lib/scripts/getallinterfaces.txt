@@ -1,0 +1,18 @@
+!interfaces
+string sifId;
+boolean df = true;
+Write('{"interfaces":[');
+foreach(sifId, root.Interfaces().EnumIDs()){
+    object oIf = dom.GetObject(sifId);
+    if ((oIf) && (oIf.TypeName()=="INTERFACE")) { 
+        if(df) {df = false;} else { Write(',');}
+        Write('{')Write('"id": ' # sifId # ',');
+        Write('"name": "' # oIf.Name() # '",');
+        Write('"type": "' # oIf.Type() # '",');
+        Write('"typename": "' # oIf.TypeName() # '",');
+        Write('"info": "' # oIf.InterfaceInfo() # '",');
+        Write('"url": "' # oIf.InterfaceUrl() # '"');
+        Write('}');
+    }
+} 
+Write(']}');

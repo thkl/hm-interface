@@ -1,0 +1,26 @@
+!programs
+string prgid;
+boolean df = true;
+Write('{"programs":[');
+    foreach(prgid, dom.GetObject(ID_PROGRAMS).EnumIDs()){
+        object oprg = dom.GetObject(prgid);
+        if(df) {df = false;} else { Write(',');}
+        Write('{');
+        Write('"id": ' # prgid # ',');
+        Write('"copyid": ' # oprg.ProgramCopyID() # ',');
+        Write('"active": ' # oprg.Active() # ',');
+        Write('"internal": ' # oprg.Internal() # ',');
+        Write('"name": "');
+        WriteXML(oprg.Name().UriEncode());
+        Write('",');
+        Write('"dpInfo": "');
+        WriteXML(oprg.PrgInfo());
+        Write('",');
+        object fr = oprg.Rule();
+        if (fr) {
+            Write('"firstRuleId": ' #  fr.ID() # ',');
+        }
+        Write('"lastRun": ' # oprg.ProgramLastExecuteTimeSeconds() # '');
+        Write('}');
+    } 
+Write(']}');

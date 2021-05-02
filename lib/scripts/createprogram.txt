@@ -1,0 +1,6 @@
+var obj = dom.CreateObject(OT_PROGRAM);
+obj.Name('%name%');
+obj.PrgInfo('%info%');
+object pList = dom.GetObject( ID_PROGRAMS );
+pList.Add(obj.ID());
+Write('{"id":' # obj.ID() # '}');

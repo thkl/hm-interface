@@ -1,0 +1,8 @@
+object newProgram = dom.GetObject(%id%); ! get the new program object
+newProgram.ProgramCopyTo(%origId%); ! copy it to the old program
+object origProgram = dom.GetObject(%origId%); ! get the old program object
+newProgram.ProgramCopyID( ID_ERROR );  ! remove copy IDs
+origProgram.ProgramCopyID( ID_ERROR ); 
+dom.DeleteObject(newProgram.ID()); ! remove the tmp new Program
+origProgram.Name('%name%'); ! name the old (now new) program
+Write('{"result":' # origProgram.ID() # '}'); ! return the id

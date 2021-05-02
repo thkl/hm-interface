@@ -1,0 +1,2 @@
+object rule = dom.GetObject(%rid%);
+object destn = rule.RuleDestination();

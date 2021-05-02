@@ -1,0 +1,9 @@
+
+object dest = destn.DestAddSingle();
+dest.DestinationParam(%destinationParam%);
+dest.DestinationChannel(%destinationChannel%);
+dest.DestinationDP(%destinationDP%);
+dest.DestinationValueType(%destinationValueType%);
+dest.DestinationValue('%destinationValue%');
+dest.DestinationValueParamType(%destinationValueParamType%);
+dest.DestinationValueParam(%destinationValueParam%);

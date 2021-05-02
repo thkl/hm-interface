@@ -1,0 +1,56 @@
+var i=dom.GetObject(41);
+Write('{"service":{');
+Write('"count": ' # i.State() # '');
+if (i.State()>0) {
+    Write(',');
+    Write('"messages":[');
+    boolean first = true;
+    var s=dom.GetObject(ID_SERVICES);
+    string sid;
+    foreach(sid,s.EnumIDs()){
+        var oAlarm = dom.GetObject(sid);
+        if( oAlarm.IsTypeOf(OT_ALARMDP) ){
+            if( oAlarm.AlState() == asOncoming ) {
+                object iTmpTriggerID = oAlarm.AlTriggerDP();
+                object oLastTrigger = dom.GetObject(iTmpTriggerID);
+                object oLastTriggerChannel = dom.GetObject( oLastTrigger.Channel() );
+                string sLongKey = oLastTriggerChannel.ChnLabel()#"|"#oLastTrigger.HSSID();
+                string sShortKey = oLastTrigger.HSSID();
+                if( (oLastTrigger.ValueType() == ivtInteger) && (oLastTrigger.ValueSubType() == istEnum)){
+                    sLongKey = sLongKey#"="#web.webGetValueFromList( oLastTrigger.ValueList(), oAlarm.Value() );
+                    sShortKey = sShortKey#"="#web.webGetValueFromList( oLastTrigger.ValueList(), oAlarm.Value());
+                }
+                if (first == true) {first = false;} else {Write(',');}
+                Write('{');
+                Write('"messageid": ' # sid # ',');
+                Write('"triggerid": ' # oLastTriggerChannel.ID() # ',');
+                var tc=dom.GetObject(oLastTriggerChannel.ID());
+                if (tc) {
+                    var dc = dom.GetObject(tc.Device());
+                    if (dc) {
+                        Write('"triggerDevice": "');
+                        WriteXML(dc.Name().UriEncode());Write('",');
+                    }
+                }
+                Write('"sLongKey": "' # sLongKey # '",');
+                Write('"sShortKey": "' # sShortKey # '",');
+                string sFirstTimestamp = oAlarm.AlOccurrenceTime();
+                string sTimestamp = oAlarm.Timestamp();
+                Write('"sFirstTimestamp": "' # sFirstTimestamp # '",');
+                Write('"sTimestamp": "' # sTimestamp # '",');
+                string sServiceMessage = web.webKeyFromStringTable( sLongKey );
+                if( !sServiceMessage.Length() ){
+                    sServiceMessage = web.webKeyFromStringTable( sShortKey );
+                    if( !sServiceMessage.Length()){
+                        sServiceMessage = "- ("#sLongKey#")";
+                    }
+                }
+                Write('"message": "' # sServiceMessage # '"');
+                Write('}');
+            }
+        }
+    }
+    Write(']');
+}
+Write('}}');
+}

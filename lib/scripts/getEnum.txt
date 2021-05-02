@@ -1,0 +1,26 @@
+!%descriptor%
+string rid;
+boolean df = true;
+Write('{"%descriptor%":[');
+    foreach(rid, dom.GetObject(%objectid%).EnumIDs()){
+        object oRoom = dom.GetObject(rid);
+        if(df) {df = false;} else { Write(',');}
+        Write('{');
+        Write('"id": ' # rid # ',');
+        Write('"name": "');
+        WriteXML(oRoom.Name().UriEncode());
+        Write('",');
+        Write('"description": "');
+        WriteXML(oRoom.EnumInfo().UriEncode());
+        Write('",');
+        Write('"channels": [');
+            string idf;
+            boolean tf = true;
+            foreach(idf,oRoom.EnumUsedIDs()){
+                if(tf){tf=false;} else { Write(',');}
+                Write('' # idf # '');
+            }
+        Write(']');
+        Write('}');
+    } 
+Write(']}');

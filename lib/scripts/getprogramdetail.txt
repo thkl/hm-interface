@@ -1,0 +1,88 @@
+string sID;
+var oPrgTmp = dom.GetObject(%1);
+    Write('{"rulesets":[');
+    object oRTmp = oPrgTmp.Rule();
+    if(oRTmp) {
+        integer iRCC = oRTmp.RuleConditions().Count();
+        string sCI;boolean rf = true;
+        foreach( sCI,system.GenerateEnum(0,(iRCC-1)) ){
+            if (rf) {rf = false;} else { Write(',');
+        }
+        object oCTmp = oRTmp.RuleCondition(sCI);
+        Write('{"ruleCndOperatorType":'#oCTmp.CndOperatorType()#',"ruleCondition":[');
+        if(oCTmp){
+            boolean cf = true;
+            foreach(sID,system.GenerateEnum(0,oCTmp.CndSingleCount()-1)){
+                if (cf) {cf = false;} else { Write(','); }
+                Write('{"cid":' # sID #',');
+                object oSC = oCTmp.CndSingleCondition(sID);
+                if (oSC) {
+                    Write('"leftVal":"'#oSC.LeftVal()#'",');
+                    Write('"operatorType":'#oSC.OperatorType()#',');
+                    Write('"leftValType":'#oSC.LeftValType()#',');
+                    Write('"rightVal1":"'#oSC.RightVal1()#'",');
+                    Write('"rightVal1ValType":'#oSC.RightVal1ValType()#',');
+                    Write('"rightVal2":"'#oSC.RightVal2()#'",');
+                    Write('"rightVal2ValType":'#oSC.RightVal2ValType()#',');
+                    Write('"conditionType":'#oSC.ConditionType()#',');
+                    Write('"conditionType2":'#oSC.ConditionType2()#',');
+                    Write('"negateCondition":'#oSC.NegateCondition()#',');
+                    Write('"conditionChannel":'#oSC.ConditionChannel()#'}');
+                }
+            }
+        }
+        Write(']}');
+    }
+    Write('],"destinations":[');
+    object oDTmp = oRTmp.RuleDestination();
+    if (oDTmp) {
+        boolean df = true;
+        foreach(sID,system.GenerateEnum(0, oDTmp.DestSingleCount()-1)){
+            object oSD = oDTmp.DestSingleDestination(sID);
+            if( oSD ) {
+                if (df) {df = false;} else { Write(','); }
+                Write('{');
+                Write('"destinationId":'#sID#',');
+                Write('"destinationDP":'#oSD.DestinationDP()#',');
+                Write('"destinationChannel":'#oSD.DestinationChannel()#',');
+                Write('"destinationParam":'#oSD.DestinationParam()#',');
+                Write('"destinationValue":"'#oSD.DestinationValue()#'",');
+                Write('"destinationValueParam":"'#oSD.DestinationValueParam()#'",');
+                Write('"destinationValueParamType":'#oSD.DestinationValueParamType()#',');
+                Write('"destinationValueType":'#oSD.DestinationValueType());
+                Write('}');
+            }
+        }
+    }
+    Write('],');
+    Write('"ruleBreakOnRestart":'#oDTmp.BreakOnRestart()#',');
+    object oSr = oRTmp.RuleSubRule(); 
+    Write('"subRules_'#oSr.RuleConditions().Count()#'":[');
+    if (oSr) {
+        object oDsTmp = oSr.RuleDestination();
+        if (oDTmp) {
+            boolean df = true;
+            foreach(sID,system.GenerateEnum(0, oDsTmp.DestSingleCount()-1)){
+                object oSD = oDsTmp.DestSingleDestination(sID);
+                if( oSD ) {
+                    if (df) {df = false;} else { Write(','); }
+                    Write('{');
+                    Write('"destinationId":'#sID#',');
+                    Write('"destinationDP":'#oSD.DestinationDP()#',');
+                    Write('"destinationChannel":'#oSD.DestinationChannel()#',');
+                    Write('"destinationParam":'#oSD.DestinationParam()#',');
+                    Write('"destinationValue":"'#oSD.DestinationValue()#'",');
+                    Write('"destinationValueParam":"'#oSD.DestinationValueParam()#'",');
+                    Write('"destinationValueParamType":'#oSD.DestinationValueParamType()#',');
+                    Write('"destinationValueType":'#oSD.DestinationValueType());
+                    Write('}');
+                }
+            }
+        }
+    }
+    Write(']');
+    if (oSr) {
+        Write(',"subRuleBreakOnRestart":'#oDsTmp.BreakOnRestart());
+    }
+} 
+Write('}');

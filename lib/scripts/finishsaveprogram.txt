@@ -1,0 +1,4 @@
+var obj = dom.GetObject(%1);
+obj.Active(%2);
+obj.ProgramUpdate();
+dom.RTUpdate(0);
