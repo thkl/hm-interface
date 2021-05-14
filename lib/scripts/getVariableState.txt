@@ -1,15 +1,31 @@
 object ovar = dom.GetObject(%variableId%);
 if (ovar) {
+
+    integer iVT = ovar.ValueType();
+    integer iST = ovar.ValueSubType();
+    boolean bLogic  = ( (iVT==ivtBinary)  && (iST==istBool)    );
+    boolean bList   = ( (iVT==ivtInteger) && (iST==istEnum)    );
+    boolean bNumber = ( (iVT==ivtFloat)   && (iST==istGeneric) );
+    boolean bAlarm  = ( (iVT==ivtBinary)  && (iST==istAlarm)   );
+    boolean bString = ( (iVT==ivtString)  && (iST==istChar8859));
+
     Write('{');
         Write('"state": ');
-        if (ovar.ValueType() == ivtString) {
+        if (bString) {
             Write('"');
             WriteXML(ovar.State().UriEncode());
             Write('"');
-        } else {
+        }  
+        
+        if (bAlarm) {
+            Write(ovar.AlState());
+        } else 
+
+        {
             Write(ovar.State());
         }
     Write('}');
+
 } else {
     Write('{');
      Write('"error": -1');

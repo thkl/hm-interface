@@ -4,6 +4,14 @@ boolean df = true;
 Write('{"variables":[');
     foreach(varid, dom.GetObject(ID_SYSTEM_VARIABLES).EnumIDs()){
         object ovar = dom.GetObject(varid);
+        integer iVT = ovar.ValueType();
+        integer iST = ovar.ValueSubType();
+        boolean bLogic  = ( (iVT==ivtBinary)  && (iST==istBool)    );
+        boolean bList   = ( (iVT==ivtInteger) && (iST==istEnum)    );
+        boolean bNumber = ( (iVT==ivtFloat)   && (iST==istGeneric) );
+        boolean bAlarm  = ( (iVT==ivtBinary)  && (iST==istAlarm)   );
+        boolean bString = ( (iVT==ivtString)  && (iST==istChar8859));
+
         if(df) {df = false;} else { Write(',');}
         Write('{');
         Write('"id": ' # varid # ',');
@@ -18,7 +26,22 @@ Write('{"variables":[');
         Write('"unit": "' # ovar.ValueUnit().UriEncode() # '",');
         Write('"valueName0": "' # ovar.ValueName0().UriEncode() # '",');
         Write('"valueName1": "' # ovar.ValueName1().UriEncode() # '",');
-        Write('"state": "' # ovar.State().ToString().UriEncode() # '"');
+
+        Write('"state": ');
+            if (bString) {
+                Write('"');
+                WriteXML(ovar.State().UriEncode());
+                Write('"');
+            }  
+        
+            if (bAlarm) {
+                Write(ovar.AlState());
+            } else 
+
+            {
+                Write(ovar.State());
+            }
+            
         Write('}');
     } 
 Write(']}');

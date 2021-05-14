@@ -3,6 +3,14 @@ boolean df = true;
     Write('{"variables":[');
         foreach(varid, '%varlist%'){
             object ovar = dom.GetObject(varid);
+            integer iVT = ovar.ValueType();
+            integer iST = ovar.ValueSubType();
+            boolean bLogic  = ( (iVT==ivtBinary)  && (iST==istBool)    );
+            boolean bList   = ( (iVT==ivtInteger) && (iST==istEnum)    );
+            boolean bNumber = ( (iVT==ivtFloat)   && (iST==istGeneric) );
+            boolean bAlarm  = ( (iVT==ivtBinary)  && (iST==istAlarm)   );
+            boolean bString = ( (iVT==ivtString)  && (iST==istChar8859));
+
             if(df) {df = false;} else { Write(',');}
             Write('{');
             Write('"id": ' # ovar.ID() # ',');
@@ -15,15 +23,22 @@ boolean df = true;
             Write('"maxvalue": "' # ovar.ValueMax() # '",');
             Write('"valuelist": "' # ovar.ValueList() # '",');
             Write('"unit": "');WriteXML(ovar.ValueUnit().UriEncode());Write('",');
+
             Write('"state": ');
-                if (ovar.ValueType() == ivtString) {
-                  Write('"');
-                  WriteXML(ovar.State().UriEncode());
-                  Write('"');
-                } else {
-                  Write(ovar.State());
+            if (bString) {
+                Write('"');
+                WriteXML(ovar.State().UriEncode());
+                Write('"');
+            }  
+        
+            if (bAlarm) {
+                Write(ovar.AlState());
+            } else 
+
+            {
+                Write(ovar.State());
             }
-            Write('"');
+
             Write('}');
         } 
     Write(']}');
