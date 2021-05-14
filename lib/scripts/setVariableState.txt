@@ -1,0 +1,16 @@
+object ovar = dom.GetObject(ID_SYSTEM_VARIABLES).Get(%variableId%);
+Write('{');
+if (ovar) {
+    integer iVT = ovar.ValueType();
+    integer iST = ovar.ValueSubType();
+    boolean bString = ( (iVT==ivtString)  && (iST==istChar8859));
+    if (bString) {
+        ovar.State("%newState%");
+    } else {
+        ovar.State(%newState%);
+    }
+    Write('"result": true');
+} else {
+    Write('"error": -1');
+}
+Write('}');

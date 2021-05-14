@@ -1,4 +1,4 @@
-object ovar = dom.GetObject(%variableId%);
+object ovar = dom.GetObject(ID_SYSTEM_VARIABLES).Get(%variableId%);
 if (ovar) {
 
     integer iVT = ovar.ValueType();

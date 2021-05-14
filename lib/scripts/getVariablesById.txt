@@ -2,7 +2,7 @@ string varid;
 boolean df = true;
     Write('{"variables":[');
         foreach(varid, '%varlist%'){
-            object ovar = dom.GetObject(varid);
+            object ovar = dom.GetObject(ID_SYSTEM_VARIABLES).Get(varid);
             integer iVT = ovar.ValueType();
             integer iST = ovar.ValueSubType();
             boolean bLogic  = ( (iVT==ivtBinary)  && (iST==istBool)    );
