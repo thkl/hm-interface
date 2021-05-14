@@ -1,0 +1,17 @@
+object ovar = dom.GetObject(%variableId%);
+if (ovar) {
+    Write('{');
+        Write('"state": ');
+        if (ovar.ValueType() == ivtString) {
+            Write('"');
+            WriteXML(ovar.State().UriEncode());
+            Write('"');
+        } else {
+            Write(ovar.State());
+        }
+    Write('}');
+} else {
+    Write('{');
+     Write('"error": -1');
+    Write('}');
+}

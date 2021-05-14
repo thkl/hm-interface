@@ -1,0 +1,29 @@
+string varid;
+boolean df = true;
+    Write('{"variables":[');
+        foreach(varid, '%varlist%'){
+            object ovar = dom.GetObject(varid);
+            if(df) {df = false;} else { Write(',');}
+            Write('{');
+            Write('"id": ' # ovar.ID() # ',');
+            Write('"name": "'); WriteXML(ovar.Name().UriEncode()); Write('",');
+            Write('"dpInfo": "');WriteXML(ovar.DPInfo().UriEncode());Write('",');
+            Write('"unerasable": ' # ovar.Unerasable() # ',');
+            Write('"valuetype": ' # ovar.ValueType() # ',');
+            Write('"subtype": ' # ovar.ValueSubType() # ',');
+            Write('"minvalue": "' # ovar.ValueMin() # '",');
+            Write('"maxvalue": "' # ovar.ValueMax() # '",');
+            Write('"valuelist": "' # ovar.ValueList() # '",');
+            Write('"unit": "');WriteXML(ovar.ValueUnit().UriEncode());Write('",');
+            Write('"state": ');
+                if (ovar.ValueType() == ivtString) {
+                  Write('"');
+                  WriteXML(ovar.State().UriEncode());
+                  Write('"');
+                } else {
+                  Write(ovar.State());
+            }
+            Write('"');
+            Write('}');
+        } 
+    Write(']}');

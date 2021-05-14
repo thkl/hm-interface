@@ -20,8 +20,9 @@ Write('{"devices":[');
             Write('"unerasable": ' # oDevice.Unerasable() # ',');
             Write('"channels": [');
             boolean bcf = true;
-            foreach(sChannelId, oDevice.Channels().EnumIDs()){
+            foreach(sChannelId, oDevice.Channels().EnumIDs()) {
                 object oChannel = dom.GetObject(sChannelId);
+                if (oChannel) {
                 if(bcf) {bcf = false;} else {Write(',');}Write('{');
                 Write('"id": ' # sChannelId # ',');
                 Write('"name": "' # oChannel.Name().UriEncode() # '",');
@@ -53,25 +54,37 @@ Write('{"devices":[');
                 boolean dcf = true;
                 foreach(sDpId,oChannel.DPs().EnumIDs()){
                     object oDP = dom.GetObject(sDpId);
-                    if(dcf) {dcf = false;} else {Write(',');}
-                    Write('{');
-                    Write('"id": ' # sDpId # ',');
-                    Write('"name": "' # oDP.Name() # '",');
-                    Write('"valuetype": ' # oDP.ValueType() # ',');
-                    Write('"valuesubtype": ' # oDP.ValueSubType() # ',');
-                    Write('"valuelist": "' # oDP.ValueList() # '",');
-                    Write('"min": "' # oDP.ValueMin() # '",');
-                    Write('"max": "' # oDP.ValueMax() # '",');
-                    Write('"unit": "' # oDP.ValueUnit().UriEncode() # '",');
-                    if (oDP.HSSID()) {
-                      string hssid = oDP.HSSID();
-                      Write('"hssid": "' # hssid # '",');
-                    } 
-                    Write('"operations": "' # oDP.Operations() # '"');
-                    Write('}');
+                    if (oDP) {
+                        if(dcf) {dcf = false;} else {Write(',');}
+                        Write('{');
+                        Write('"id": ' # sDpId # ',');
+                        Write('"name": "' # oDP.Name() # '",');
+                        Write('"valuetype": ' # oDP.ValueType() # ',');
+                        Write('"valuesubtype": ' # oDP.ValueSubType() # ',');
+                        
+                        if (oDP.ValueSubType()==istEnum) {
+                            Write('"valuelist": "' # oDP.ValueList() # '",');
+                        } else {
+                            Write('"valuelist": "",');
+                        }
+
+                        if (oDP.ValueType() != ivtString) {
+                            Write('"min": "' # oDP.ValueMin() # '",');
+                            Write('"max": "' # oDP.ValueMax() # '",');
+                            Write('"unit": "' # oDP.ValueUnit().UriEncode() # '",');
+                        }
+            
+                        if (oDP.HSSID()) {
+                          string hssid = oDP.HSSID();
+                          Write('"hssid": "' # hssid # '",');
+                        } 
+                        Write('"operations": "' # oDP.Operations() # '"');
+                        Write('}');
+                    }
                 }
                 Write(']');
                 Write('}');
+                }
             }
         Write(']}');
     }

@@ -1,0 +1,8 @@
+var obj = dom.GetObject(%objectid%);
+if ((obj) && (!obj.Unerasable())) {
+    dom.DeleteObject(obj.ID());
+    Write('{"result":0}');
+} else {
+    Write('{"result":-1}');
+}
+
