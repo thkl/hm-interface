@@ -1,0 +1,20 @@
+object ovar = dom.GetObject(ID_SYSTEM_VARIABLES).Get(%id%);
+if (!ovar) {
+    ovar = dom.CreateObject(OT_VARDP);
+    object vList = dom.GetObject(ID_SYSTEM_VARIABLES);
+    vList.Add(ovar.ID());
+}
+ovar.Name('%name%');
+ovar.ValueType(%valueType%);
+ovar.ValueSubType(%subType%);
+
+if (%valueType% == ivtInteger || %valueType% == ivtFloat) { 
+    ovar.ValueMin(%minValue%);
+    ovar.ValueMax(%maxValue%);
+}
+
+ovar.ValueList('%valueList%');
+ovar.ValueUnit('%unit%');
+ovar.ValueName0('%valueName0%');
+ovar.ValueName1('%valueName1%');
+Write('{"id":' # ovar.ID() # '}');

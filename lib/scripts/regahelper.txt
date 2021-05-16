@@ -1,0 +1,78 @@
+#!/bin/tclsh
+
+load tclrega.so
+
+catch {
+  set input $env(QUERY_STRING)
+  set pairs [split $input &]
+  foreach pair $pairs {
+    if {0 != [regexp "^(\[^=]*)=(.*)$" $pair dummy varname val]} {
+      set $varname $val
+    }
+  }
+}
+
+proc urlencode {string} {
+    variable map
+    variable alphanumeric a-zA-Z0-9
+    for {set i 0} {$i <= 256} {incr i} { 
+        set c [format %c $i]
+        if {![string match \[$alphanumeric\] $c]} {
+            set map($c) %[format %.2x $i]
+        }
+    }
+    # These are handled specially
+    array set map { " " + \n %0d%0a }
+ 
+    # The spec says: "non-alphanumeric characters are replaced by '%HH'"
+    # 1 leave alphanumerics characters alone
+    # 2 Convert every other character to an array lookup
+    # 3 Escape constructs that are "special" to the tcl parser
+    # 4 "subst" the result, doing all the array substitutions
+ 
+    regsub -all \[^$alphanumeric\] $string {$map(&)} string
+    # This quotes cases like $map([) or $map($) => $map(\[) ...
+    regsub -all {[][{})\\]\)} $string {\\&} string
+    return [subst -nocommand $string]
+}
+
+proc toString { str } {
+  set map {
+    "\"" "\\\""
+    "\\" "\\\\"
+    "\{" "\\\{"
+    "\[" "\\\["
+    "/"  "\\/" 
+    "\b"  "\\b" 
+    "\f"  "\\f" 
+    "\n"  "\\n" 
+    "\r"  "\\r" 
+    "\ä"  "\%E4"
+    "\ö"  "\%F6"
+    "\ü"  "\%FC"
+    "\Ä"  "\%C4"
+    "\Ö"  "\%D6"
+    "\Ü"  "\%DC"
+    "\ß"  "\%DF"
+  }
+  return "\"[string map $map $str]\""
+}
+
+if { [catch {
+    set content [read stdin]
+    array set script_result [rega_script $content]
+  
+    set first 1
+    set result "\{\n"
+    foreach name [array names script_result] {
+      if { 1 != $first } { append result ",\n" } { set first 0 }
+      set value $script_result($name)
+      append result "  [toString $name]: \"[urlencode $value]\""
+    }
+    append result "\n\}"
+  
+    puts $result
+    
+  } errorMessage] } {
+    puts $errorMessage
+}

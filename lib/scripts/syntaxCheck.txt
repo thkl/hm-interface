@@ -1,0 +1,2 @@
+var x = system.SyntaxCheck("%script%", "", "", ""  );
+Write('{"result":"' # x.UriEncode() # '"}');
