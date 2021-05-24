@@ -28,6 +28,8 @@ if (i.State()>0) {
                 if (tc) {
                     var dc = dom.GetObject(tc.Device());
                     if (dc) {
+                        Write('"triggerDeviceID": ');
+                        Write(dc.ID());Write(',');
                         Write('"triggerDevice": "');
                         WriteXML(dc.Name().UriEncode());Write('",');
                     }

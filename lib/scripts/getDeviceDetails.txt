@@ -1,0 +1,71 @@
+!devices
+string sDeviceId=%sDeviceId%;
+string sChannelId;
+string sDpId;
+    Write('{"device":');
+    object oDevice = dom.GetObject(sDeviceId);
+    if(oDevice){
+        Write('{');
+        Write('"id": ' # sDeviceId # ',');
+        Write('"name": "' # oDevice.Name().UriEncode() # '",');
+        Write('"address": "' # oDevice.Address() # '",');
+        Write('"type": "' # oDevice.HssType() # '",');
+        Write('"interface": ' # oDevice.Interface() # ',');
+        Write('"visible": ' # oDevice.Visible() # ',');
+        Write('"inuse": ' # oDevice.Used() # ',');
+        Write('"enabled": ' # oDevice.Enabled() # ',');
+        Write('"access": ' # oDevice.UserAccessRights(iulOtherThanAdmin) # ',');
+        Write('"readyconfig": ' # oDevice.ReadyConfig() # ',');
+        Write('"readyconfigchannels": ' # oDevice.ReadyConfigChns() # ',');
+        Write('"unerasable": ' # oDevice.Unerasable() # ',');
+        Write('"channels": [');
+         boolean bcf = true;
+             foreach(sChannelId, oDevice.Channels().EnumIDs()){
+             object oChannel = dom.GetObject(sChannelId);
+             if(bcf) {bcf = false;} else {
+                 Write(',');
+             }
+             Write('{');
+             Write('"id": ' # sChannelId # ',');
+             Write('"name": "' # oChannel.Name().UriEncode() # '",');
+             Write('"intf": ' # oDevice.Interface() # ',');
+             Write('"address": "' # oChannel.Address() # '",');
+             Write('"type": "' # oChannel.HssType() # '",');
+             Write('"access": ' # oChannel.UserAccessRights(iulOtherThanAdmin) # ',');
+             Write('"direction": "' # oChannel.ChnDirection() # '",');
+             Write('"functions": [');
+              string idf;
+              boolean tf = true;
+              foreach(idf,oChannel.ChnFunction()){
+                  if(tf){tf=false;} else { 
+                      Write(',');
+                  }
+                  Write('' # idf # '');
+              }
+              Write('],');
+              Write('"rooms": [');
+                string idf;boolean tf = true;
+                foreach(idf,oChannel.ChnRoom()){
+                    if(tf){tf=false;} else { 
+                        Write(',');
+                    }
+                    Write('' # idf # '');
+                }
+                Write('],');
+                Write('"dp":[');
+                   boolean dcf = true;
+                   foreach(sDpId,oChannel.DPs().EnumIDs()){
+                       object oDP = dom.GetObject(sDpId);
+                       if(dcf) {dcf = false;} else {
+                           Write(',');
+                       }Write('{');
+                       Write('"id": ' # sDpId # ',');
+                       Write('"name": "' # oDP.Name() # '"');
+                       Write('}');
+                    }
+                Write(']');
+                Write('}');
+            }
+            Write(']}');
+        }
+    Write('}');

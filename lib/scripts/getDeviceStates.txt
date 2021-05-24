@@ -1,0 +1,24 @@
+string sDeviceId=%sDeviceId%;
+string sChannelId;
+string sDpId;
+    Write('{"deviceStates":[');
+    object oDevice = dom.GetObject(sDeviceId);
+    if(oDevice){
+        boolean dcf = true;
+        foreach(sChannelId, oDevice.Channels().EnumIDs()){
+             object oChannel = dom.GetObject(sChannelId);
+                   foreach(sDpId,oChannel.DPs().EnumIDs()){
+                       object oDP = dom.GetObject(sDpId);
+                       if(dcf) {dcf = false;} else {
+                           Write(',');
+                       }
+                       Write('{');
+                       Write('"name": "' # oDP.Name() # '",');
+                       Write('"state": "' # oDP.State() # '",');
+                       Write('"ts": "' # oDP.Timestamp() # '"');
+                       Write('}');
+                    }
+        }
+    }
+    Write(']');
+    Write('}');
