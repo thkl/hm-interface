@@ -74,7 +74,7 @@ Write('{"devices":[');
                             Write('"unit": "' # oDP.ValueUnit().UriEncode() # '",');
                         }
             
-                        if (oDP.HSSID()) {
+                        if (oDP.IsTypeOf(OT_HSSDP)) {
                           string hssid = oDP.HSSID();
                           Write('"hssid": "' # hssid # '",');
                         } 
