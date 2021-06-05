@@ -1,0 +1,6 @@
+Write('{');
+Write('"time":"' # system.Date("%H:%M") # '",');
+Write('"date":"' # system.Date("%d.%m.%Y") # '",');
+Write('"sunrise":"' # system.SunriseTime("%H:%M") # '",');
+Write('"sunset":"' # system.SunsetTime("%H:%M") # '"' );
+Write('}')
