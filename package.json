@@ -1,6 +1,6 @@
 {
   "name": "hm-interface",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "A node implementation for a HomeMatic Hardware Interface",
   "main": "index.js",
   "repository": {
