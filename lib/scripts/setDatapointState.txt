@@ -1,0 +1,19 @@
+object oDP = dom.GetObject('%datapointName%');
+Write('{');
+if (oDP) {
+    integer iVT = oDP.ValueType();
+    integer iST = oDP.ValueSubType();
+    boolean bString = ( (iVT==ivtString)  && ((iST==istChar8859) || (iST==istGeneric)));
+    if (bString) {
+        string nv = "%newState%";
+        oDP.State(nv);
+        Write('"result": "' # oDP.State()#'"');
+    } else {
+        object nv = '%newState%';
+        oDP.State(nv);
+        Write('"result": ' # oDP.State());
+    }
+} else {
+    Write('"error": -1');
+}
+Write('}');

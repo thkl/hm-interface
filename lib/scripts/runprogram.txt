@@ -1,0 +1,9 @@
+var oPrgTmp = dom.GetObject(%id%);
+Write('{');
+if (oPrgTmp) {
+    oPrgTmp.ProgramExecute();
+    Write('"result": "' # oPrgTmp.ProgramLastExecuteTimeSeconds() # '"');
+} else {
+    Write('"error": -1');
+}
+Write('}');

@@ -15,13 +15,13 @@ if (ovar) {
             Write('"');
             WriteXML(ovar.State().UriEncode());
             Write('"');
-        }  
+        } 
         
         if (bAlarm) {
             Write(ovar.AlState());
-        } else 
+        }  
 
-        {
+        if ((bLogic) || (bList) || (bNumber)) {
             Write(ovar.State());
         }
     Write('}');
